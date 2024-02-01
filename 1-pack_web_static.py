@@ -19,6 +19,6 @@ def do_pack():
     local('mkdir -p versions/')
     result = local('tar -cvzf {} web_static/'.format(archive_path))
 
-    if result.succeeded:
+    if result.return_code == 0:
         return archive_path
     return None
