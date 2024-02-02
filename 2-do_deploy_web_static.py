@@ -1,32 +1,56 @@
 #!/usr/bin/python3
+"""Compress web static package
 """
-This is  a Fabric script that generates a .tgz archive
-from the contents of the web_static folder of your AirBnB Clone repo,
-using the function do_pack.
-"""
-from fabric.api import local
+from fabric.api import *
 from datetime import datetime
+from os import path
 
 
-def do_pack():
-    """
-    stores all the files in web_static folder in tbz archive
-    """
-    now = datetime.now()
-    now = now.strftime('%Y%m%d%H%M%S')
-    archive_path = 'version/web_static/' + now + '.tgz'
-
-    local('mkdir -p versions/')
-    result = local('tar -cvzf {} web_static/'.format(archive_path))
-
-    if result.return_code == 0:
-        return archive_path
-    return None
+env.hosts = ['18.209.20.255', '34.73.76.135']
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/id_rsa'
 
 
 def do_deploy(archive_path):
-    """
-    distributes an archive to your web servers.
-    """
-    if not archive_path:
-        return False
+        """Deploy web files to server
+        """
+        try:
+                if not (path.exists(archive_path)):
+                        return False
+
+                # upload archive
+                put(archive_path, '/tmp/')
+
+                # create target dir
+                timestamp = archive_path[-18:-4]
+                run('sudo mkdir -p /data/web_static/\
+releases/web_static_{}/'.format(timestamp))
+
+                # uncompress archive and delete .tgz
+                run('sudo tar -xzf /tmp/web_static_{}.tgz -C \
+/data/web_static/releases/web_static_{}/'
+                    .format(timestamp, timestamp))
+
+                # remove archive
+                run('sudo rm /tmp/web_static_{}.tgz'.format(timestamp))
+
+                # move contents into host web_static
+                run('sudo mv /data/web_static/releases/web_static_{}/web_static/* \
+/data/web_static/releases/web_static_{}/'.format(timestamp, timestamp))
+
+                # remove extraneous web_static dir
+                run('sudo rm -rf /data/web_static/releases/\
+web_static_{}/web_static'
+                    .format(timestamp))
+
+                # delete pre-existing sym link
+                run('sudo rm -rf /data/web_static/current')
+
+                # re-establish symbolic link
+                run('sudo ln -s /data/web_static/releases/\
+web_static_{}/ /data/web_static/current'.format(timestamp))
+        except:
+                return False
+
+        # return True on success
+        return True
