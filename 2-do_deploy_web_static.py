@@ -35,7 +35,7 @@ def do_deploy(archive_path):
         # Remove archive from /tmp
         run("sudo rm /tmp/{}".format(file_name))
 
-        # Move contents, remove unnecessary directory, and create symlink
+        # Use rsync to move contents, remove unnecessary directory, and create symlink
         run("sudo rsync -av --ignore-existing {}/web_static/ {}/".format(remote_path, remote_path))
         run("sudo rm -rf {}web_static".format(remote_path))
         run("sudo rm -rf /data/web_static/current")
@@ -46,4 +46,4 @@ def do_deploy(archive_path):
     except Exception as e:
         print(f"Error: {e}")
         return False
-
+        
