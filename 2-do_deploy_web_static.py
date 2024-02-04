@@ -32,7 +32,7 @@ def do_deploy(archive_path):
         run("sudo rm /tmp/{}".format(file_name))
 
         # Move contents, remove unnecessary directory, and create symlink
-        run("sudo mv {}web_static/* {}".format(remote_path, remote_path))
+        run("sudo rsync -av --ignore-existing {}/web_static/ {}/".format(remote_path, remote_path))
         run("sudo rm -rf {}web_static".format(remote_path))
         run("sudo rm -rf /data/web_static/current")
         run("sudo ln -s {} /data/web_static/current".format(remote_path))
