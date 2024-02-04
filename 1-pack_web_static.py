@@ -14,9 +14,9 @@ def do_pack():
     """
     now = datetime.now()
     now = now.strftime('%Y%m%d%H%M%S')
-    archive_path = 'versions/web_static/' + now + '.tgz'
+    archive_path = 'versions/web_static_' + now + '.tgz'
 
-    local('mkdir -p versions/web_static')
+    local('mkdir -p versions')
     result = local('tar -cvzf {} web_static/'.format(archive_path))
 
     if result.return_code == 0:
