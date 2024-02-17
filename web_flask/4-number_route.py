@@ -34,5 +34,29 @@ def c_fun(text):
     return "C " + text
 
 
+@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python_cool(text):
+    """
+    Displays 'Python' followed by the value of the text variable
+    (replace underscore _ symbols with a space).
+    The default value of text is 'is cool'.
+    """
+    text = text.replace("_", " ")
+    return "Python " + text
+
+
+@app.route("/number/<n>", strict_slashes=False)
+def python_cool(n):
+    """
+    Displays “n is a number” only if n is an integer
+    """
+    try:
+        int_n = int(n)
+        return "n is a number"
+    except ValueError:
+        return
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
