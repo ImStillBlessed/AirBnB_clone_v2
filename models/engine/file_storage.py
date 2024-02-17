@@ -3,7 +3,6 @@
 import json
 
 
-
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
@@ -12,7 +11,8 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls:
-            return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
+            return {k: v for k, v in self.__objects.items()
+                    if isinstance(v, cls)}
         else:
             return self.__objects
 
@@ -40,7 +40,6 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
-
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
@@ -51,7 +50,7 @@ class FileStorage:
             with open(self.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
@@ -66,7 +65,7 @@ class FileStorage:
             # deletes obj else do nothing
             del self.__objects[key]
             self.save()
-    
+
     def close(self):
         """
         deserializing the JSON file to objects

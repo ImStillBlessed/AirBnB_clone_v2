@@ -17,6 +17,7 @@ all_classes = {'State': State, 'City': City,
                'User': User, 'Place': Place,
                'Review': Review, 'Amenity': Amenity}
 
+
 class DBStorage:
     """
     This class manages the storage for the program using SQLAlchemy
@@ -29,11 +30,11 @@ class DBStorage:
         """
         # create the engine
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.
-                                    format(getenv('HBNB_MYSQL_USER'),
-                                           getenv('HBNB_MYSQL_PWD'),
-                                           getenv('HBNB_MYSQL_HOST'),
-                                           getenv('HBNB_MYSQL_DB')),
-                                    pool_pre_ping=True)
+                                      format(getenv('HBNB_MYSQL_USER'),
+                                             getenv('HBNB_MYSQL_PWD'),
+                                             getenv('HBNB_MYSQL_HOST'),
+                                             getenv('HBNB_MYSQL_DB')),
+                                      pool_pre_ping=True)
         # drops the tables if it the test.
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -57,7 +58,7 @@ class DBStorage:
 
         # return dictionary
         return my_dict
-    
+
     def new(self, obj):
         """
         add the object to the current database session.
@@ -78,11 +79,12 @@ class DBStorage:
             # find the class in obj
             class_name = all_classes[type(obj).__name__]
             # query the class form the table and delete it
-            self.__session.query(class_name).filter(class_name.id == obj.id).delete()
+            deletor = self.__session.query(class_name)
+            deletor.filter(class_name.id == obj.id).delete()
 
     def reload(self):
         """
-        create all tables in the database (feature of SQLAlchemy) 
+        create all tables in the database (feature of SQLAlchemy)
         """
         # create the session for the current engine
         Base.metadata.create_all(self.__engine)
@@ -90,7 +92,7 @@ class DBStorage:
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
 
         self.__session = scoped_session(session)
-    
+
     def close(self):
         """
         Calls close() method on the private session attribute (self.__session)
