@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def closing():
+def closing(arg=None):
     """
     Method For handling closing of each session
     """
@@ -21,11 +21,11 @@ def closing():
 
 
 @app.route("/states_list", strict_slashes=False)
-def state_list(head):
+def state_list():
     """
     Display a list of all State objects sorted by name in an HTML page.
     """
-    states = sorted(storage.all("States").values(), key=lambda x: x.name)
+    states = sorted(storage.all(State).values(), key=lambda x: x.name)
     return render_template('7-states_list.html', states=states)
 
 
