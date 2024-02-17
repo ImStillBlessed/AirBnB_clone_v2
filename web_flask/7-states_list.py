@@ -9,7 +9,7 @@ from models.state import State
 
 app = Flask(__name__)
 
-storage.all()
+# storage.all()
 
 
 @app.teardown_appcontext
@@ -25,7 +25,7 @@ def state_list(head):
     """
     Display a list of all State objects sorted by name in an HTML page.
     """
-    states = sorted(State.all().values(), key=lambda x: x.name)
+    states = sorted(storage.all("States").values(), key=lambda x: x.name)
     return render_template('7-states_list.html', states=states)
 
 
