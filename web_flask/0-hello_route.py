@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+imports and declears a flask page hello hbnb
+"""
 from flask import Flask
 
 app = Flask(__name__)
