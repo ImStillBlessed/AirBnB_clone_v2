@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Define storage engine using MySQL database
-"""
+"""Define storage engine using MySQL database"""
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
@@ -87,7 +86,7 @@ class DBStorage:
         create all tables in the database (feature of SQLAlchemy)
         """
         # create the session for the current engine
-        Base.metadata.create_all(self.__engine)
+        # Base.metadata.create_all(self.__engine)
         # create the database tables
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
 
