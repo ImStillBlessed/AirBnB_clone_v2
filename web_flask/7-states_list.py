@@ -2,20 +2,12 @@
 """
 This script defines routes for a Flask web application.
 """
-from os import getenv
 from flask import Flask, render_template
 from models import storage
 from models.state import State
 
 
 app = Flask(__name__)
-
-if getenv('HBNB_TYPE_STORAGE') == 'db':
-    from models.engine.db_storage import DBStorage
-    storage = DBStorage()
-else:
-    from models.engine.file_storage import FileStorage
-    storage = FileStorage()
 
 storage.all()
 
