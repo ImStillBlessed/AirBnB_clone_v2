@@ -34,9 +34,9 @@ def c_fun(text):
     return "C " + text
 
 
-@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python/', strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
-def python_cool(text):
+def python_cool(text="is cool"):
     """
     Displays 'Python' followed by the value of the text variable
     (replace underscore _ symbols with a space).
@@ -46,26 +46,18 @@ def python_cool(text):
     return "Python " + text
 
 
-@app.route("/number/<n>", strict_slashes=False)
+@app.route("/number/<int:n>", strict_slashes=False)
 def is_a_number(n):
     """
     Displays “n is a number” only if n is an integer
     """
-    try:
-        int_n = int(n)
-        return n + " is a number"
-    except ValueError:
-        return
+    return "{} is a number".format(n)
 
 
-@app.route("/number_template/<n>", strict_slashes=False)
+@app.route("/number_template/<int:n>", strict_slashes=False)
 def num_template(n):
     """Displays a HTML page only if n is a number"""
-    try:
-        int_n = int(n)
-        return render_template("5-number.html")
-    except ValueError:
-        return
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':

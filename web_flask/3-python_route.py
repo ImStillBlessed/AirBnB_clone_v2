@@ -34,9 +34,9 @@ def c_fun(text):
     return "C " + text
 
 
-@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python/', strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
-def python_cool(text):
+def python_cool(text="is cool"):
     """
     Displays 'Python' followed by the value of the text variable
     (replace underscore _ symbols with a space).
