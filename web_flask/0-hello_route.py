@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 """
-imports and declears a flask page hello hbnb
+This script defines routes for a Flask web application.
 """
+
 from flask import Flask
 
 app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
-def home():
-    """only returns hello HBNB!"""
+def hello_hbnb():
+    """
+    Displays 'Hello HBNB!' when root URL is accessed.
+    """
     return "Hello HBNB!"
 
 if __name__ == '__main__':
