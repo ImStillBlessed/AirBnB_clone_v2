@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+"""
+This script defines routes for a Flask web application.
+"""
+from os import getenv
+from flask import Flask, render_template
+from models import storage
+from models.state import State
+
+
+app = Flask(__name__)
+
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    from models.engine.db_storage import DBStorage
+    storage = DBStorage()
+else:
+    from models.engine.file_storage import FileStorage
+    storage = FileStorage()
+
+storage.all()
+
+
+@app.teardown_appcontext
+def closing():
+    """
+    Method For handling closing of each session
+    """
+    storage.close()
+
+
+@app.route("/states_list", strict_slashes=False)
+def state_list(head):
+    """
+    Display a list of all State objects sorted by name in an HTML page.
+    """
+    states = sorted(State.all().values(), key=lambda x: x.name)
+    return render_template('7-states_list.html', states=states)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
