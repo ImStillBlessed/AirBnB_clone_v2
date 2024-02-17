@@ -47,13 +47,13 @@ def python_cool(text):
 
 
 @app.route("/number/<n>", strict_slashes=False)
-def python_cool(n):
+def is_a_number(n):
     """
     Displays “n is a number” only if n is an integer
     """
     try:
         int_n = int(n)
-        return "n is a number"
+        return n + " is a number"
     except ValueError:
         return
 
