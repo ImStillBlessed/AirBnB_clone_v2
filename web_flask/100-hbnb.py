@@ -25,7 +25,7 @@ def hbnb():
     """
     Displays the dynamic AirBnB page
     """
-    path = '10-hbnb_filters.html'
+    path = '100-hbnb.html'
     states = storage.all(State)
     amenities = storage.all(Amenity)
     places = storage.all(Place)
