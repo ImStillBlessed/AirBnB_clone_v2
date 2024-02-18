@@ -20,8 +20,8 @@ def closing(arg=None):
     storage.close()
 
 
-@app.route("/hbnb_filters", strict_slashes=False)
-def hbnb_filter():
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
     """
     Displays the dynamic AirBnB page
     """
