@@ -21,7 +21,7 @@ def closing(arg=None):
 
 
 @app.route("/states", strict_slashes=False)
-@app.route("states/<id>", strict_slashes=False)
+@app.route("states/<string:id>", strict_slashes=False)
 def state_id_filter(id=None):
     """
     Displays state in html if the object is found with this id
