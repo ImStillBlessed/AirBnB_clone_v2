@@ -7,7 +7,7 @@ from models import storage
 from models.state import State
 from models.amenity import Amenity
 from models.place import Place
-
+from models.user import User
 
 app = Flask(__name__)
 
@@ -29,8 +29,9 @@ def hbnb():
     states = storage.all(State)
     amenities = storage.all(Amenity)
     places = storage.all(Place)
+    user = storage.all(User)
     return render_template(path, states=states, 
-                           amenities=amenities, places=places)
+                           amenities=amenities, places=places, user=user)
 
 
 if __name__ == '__main__':
